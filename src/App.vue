@@ -1,5 +1,10 @@
 <template lang="pug">
-#app 여기서부터 코드를 시작합니다.
+#app
+  a(href="/") Home
+  span
+  = ' '
+  a(href="/login") Login
+  router-view
 </template>
 
 <script>
