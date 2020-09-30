@@ -1,12 +1,29 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router";
-import store from "./store";
 
 Vue.config.productionTip = false;
 
+const Login = {
+  name: "Login",
+  template: "<div>Login page..</div>",
+};
+
+const routes = {
+  "/": App,
+  "/login": Login,
+};
+
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+  computed: {
+    VueComponent() {
+      return (
+        routes[window.location.pathname] || {
+          template: "<div>Page not found.</div>",
+        }
+      );
+    },
+  },
+  render(h) {
+    return h(this.VueComponent);
+  },
 }).$mount("#app");
