@@ -2,6 +2,8 @@
 div
   div Board
   span bid: {{ bid }}
+  hr
+  router-view
 </template>
 
 <script>
