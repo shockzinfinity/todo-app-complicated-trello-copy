@@ -17,6 +17,7 @@ const NotFound = {
 };
 
 const router = new VueRouter({
+  mode: "history",
   routes: [
     { path: "/", component: App },
     { path: "/login", component: Login },
