@@ -11,6 +11,11 @@ export default {
       cid: 0
     };
   },
+  watch: {
+    $route() {
+      this.cid = this.$route.params.cid;
+    }
+  },
   created() {
     // console.log(this.$route.params);
     this.cid = this.$route.params.cid;
