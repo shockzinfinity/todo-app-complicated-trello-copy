@@ -6,6 +6,7 @@ div
 
 <script>
 export default {
+  name: "Card",
   data() {
     return {
       cid: 0
