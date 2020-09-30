@@ -16,9 +16,9 @@ export default {
     };
   },
   watch: {
-    $route() {
-      // this.cid = this.$route.params.cid;
-      this.fetchData();
+    $route: {
+      handler: "fetchData",
+      immediate: true
     }
   },
   methods: {
@@ -29,11 +29,6 @@ export default {
         this.loading = false;
       }, 500);
     }
-  },
-  created() {
-    // console.log(this.$route.params);
-    // this.cid = this.$route.params.cid;
-    this.fetchData();
   }
 };
 </script>
