@@ -1,9 +1,9 @@
 <template lang="pug">
 #app
-  a(href="/") Home
+  router-link(to="/") Home
   span
   = ' '
-  a(href="/login") Login
+  router-link(to="/login") Login
   router-view
 </template>
 
