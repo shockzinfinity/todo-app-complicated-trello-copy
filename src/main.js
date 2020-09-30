@@ -8,6 +8,11 @@ const Login = {
   template: "<div>Login page..</div>",
 };
 
+const NotFound = {
+  name: "NotFound",
+  template: "<div>Page not found.</div>",
+};
+
 const routes = {
   "/": App,
   "/login": Login,
@@ -16,11 +21,7 @@ const routes = {
 new Vue({
   computed: {
     VueComponent() {
-      return (
-        routes[window.location.pathname] || {
-          template: "<div>Page not found.</div>",
-        }
-      );
+      return routes[window.location.pathname] || NotFound;
     },
   },
   render(h) {
