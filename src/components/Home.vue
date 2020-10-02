@@ -14,8 +14,7 @@ div Home
 </template>
 
 <script>
-import axios from "axios";
-
+import { board } from "../api";
 export default {
   data() {
     return {
@@ -26,15 +25,10 @@ export default {
   methods: {
     fetchData() {
       this.loading = true;
-
-      axios
-        .get("https://localhost:4001/api/category")
-        .then(res => {
-          this.boards = res.data;
-        })
-        .catch(res => {
-          // this.error = res.response.data;
-          this.$router.replace("/login");
+      board
+        .fetch()
+        .then(data => {
+          this.boards = data;
         })
         .finally(() => {
           this.loading = false;
