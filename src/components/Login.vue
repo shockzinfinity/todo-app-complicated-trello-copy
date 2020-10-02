@@ -27,12 +27,14 @@
 </template>
 
 <script>
+import { auth } from "../api";
 export default {
   data() {
     return {
       username: "",
       password: "",
-      error: ""
+      error: "",
+      rPath: ""
     };
   },
   computed: {
@@ -42,8 +44,21 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.username, this.password);
+      // console.log(this.username, this.password);
+      auth
+        .login(this.username, this.password)
+        .then(data => {
+          // console.log(data);
+          localStorage.setItem("token", data.token);
+          this.$router.push(this.rPath);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
+  },
+  created() {
+    this.rPath = this.$route.query.rPath || "/";
   }
 };
 </script>

@@ -20,12 +20,22 @@ const request = (method, url, data) => {
         return onUnauthorized();
       }
 
-      throw Error(result);
+      // throw Error(result);
+      throw result.response;
     });
 };
 
 export const board = {
   fetch() {
     return request("GET", "/api/category");
+  },
+};
+
+export const auth = {
+  login(username, password) {
+    return request("POST", "/api/users/authenticate", {
+      username,
+      password,
+    });
   },
 };
