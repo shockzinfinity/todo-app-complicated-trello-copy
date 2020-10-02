@@ -1,27 +1,27 @@
 <template lang="pug">
 div
-  div Board
-  div(v-if="loading") Loading board...
+  div Category
+  div(v-if="loading") Loading category...
   div(v-else)
-    span bid: {{ bid }}
+    span cid: {{ cid }}
     div
-      router-link(:to="`/b/${bid}/c/1`") Card 1
+      router-link(:to="`/c/${bid}/t/1`") Todo Item 1
       span
       = ' '
-      router-link(:to="`/b/${bid}/c/2`") Card 2
+      router-link(:to="`/c/${bid}/t/2`") Todo Item 2
       span
       = ' '
-      router-link(:to="`/b/${bid}/c/3`") Card 3
+      router-link(:to="`/c/${bid}/t/3`") Todo Item 3
   hr
   router-view
 </template>
 
 <script>
 export default {
-  name: "Board",
+  name: "Category",
   data() {
     return {
-      bid: 0,
+      cid: 0,
       loading: false
     };
   },
@@ -30,7 +30,7 @@ export default {
       this.loading = true;
       // backend call
       setTimeout(() => {
-        this.bid = this.$route.params.bid;
+        this.cid = this.$route.params.cid;
         this.loading = false;
       }, 500);
     }

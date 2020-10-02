@@ -31,7 +31,7 @@ export const setAuthInHeader = (token) => {
     : null;
 };
 
-export const board = {
+export const category = {
   fetch() {
     return request("GET", "/api/category");
   },

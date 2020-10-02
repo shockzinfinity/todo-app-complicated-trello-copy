@@ -3,8 +3,8 @@ import VueRouter from "vue-router";
 import Home from "@/components/Home.vue";
 import Login from "@/components/Login.vue";
 import NotFound from "@/components/NotFound.vue";
-import Board from "@/components/Board.vue";
-import Card from "@/components/Card.vue";
+import Category from "@/components/Category.vue";
+import TodoItem from "@/components/TodoItem.vue";
 
 Vue.use(VueRouter);
 
@@ -21,10 +21,12 @@ const router = new VueRouter({
     { path: "/", component: Home, beforeEnter: requireAuth },
     { path: "/login", component: Login },
     {
-      path: "/b/:bid",
-      component: Board,
+      path: "/c/:cid",
+      component: Category,
       beforeEnter: requireAuth,
-      children: [{ path: "c/:cid", component: Card, beforeEnter: requireAuth }],
+      children: [
+        { path: "t/:tid", component: TodoItem, beforeEnter: requireAuth },
+      ],
     },
     { path: "*", component: NotFound },
   ],

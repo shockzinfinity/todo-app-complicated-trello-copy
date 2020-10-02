@@ -1,17 +1,17 @@
 <template lang="pug">
 div
-  div Card
-  div(v-if="loading") loading cards...
+  div Todo Item
+  div(v-if="loading") loading todo items...
   div(v-else)
-    span cid: {{ cid }}
+    span tid: {{ tid }}
 </template>
 
 <script>
 export default {
-  name: "Card",
+  name: "TodoItem",
   data() {
     return {
-      cid: 0,
+      tid: 0,
       loading: false
     };
   },
@@ -25,7 +25,7 @@ export default {
     fetchData() {
       this.loading = true;
       setTimeout(() => {
-        this.cid = this.$route.params.cid;
+        this.tid = this.$route.params.tid;
         this.loading = false;
       }, 500);
     }
