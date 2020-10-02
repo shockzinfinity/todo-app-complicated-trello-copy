@@ -3,13 +3,29 @@ nav.header
   .header-logo
     router-link(to="/") Home
   .header-auth
-    router-link(to="/login") Login
+    a(href="", v-if="isAuth", @click.prevent="logout") Logout
+    router-link(v-else, to="/login") Login
   //- span
   //- = ' '
 </template>
 
 <script>
-export default {};
+import { setAuthInHeader } from "../api";
+
+export default {
+  computed: {
+    isAuth() {
+      return !!localStorage.getItem("token");
+    }
+  },
+  methods: {
+    logout() {
+      delete localStorage.token;
+      setAuthInHeader(null);
+      this.$router.push("/login");
+    }
+  }
+};
 </script>
 
 <style>
