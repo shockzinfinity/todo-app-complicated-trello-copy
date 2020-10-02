@@ -2,7 +2,10 @@
 div Home
   div Board List:
     div(v-if="loading") Loading...
-    div(v-else) API response: {{ apiRes }}
+    div(v-else) API response:
+      pre {{ apiRes }}
+    div(v-if="error") Error:
+      pre {{ error }}
     ul
       li
         router-link(to="/b/1") Board 1
@@ -13,10 +16,13 @@ div Home
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       apiRes: "",
+      error: "",
       loading: false
     };
   },
@@ -24,18 +30,17 @@ export default {
     fetchData() {
       this.loading = true;
 
-      const req = new XMLHttpRequest();
-
-      req.open("GET", "https://localhost:4001/weatherforecast");
-      req.send();
-      req.addEventListener("load", () => {
-        this.loading = false;
-        this.apiRes = {
-          status: req.status,
-          statusText: req.statusText,
-          response: JSON.parse(req.response)
-        };
-      });
+      axios
+        .get("https://localhost:4001/weatherforecast")
+        .then(res => {
+          this.apiRes = res.data;
+        })
+        .catch(res => {
+          this.error = res.response.data;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   },
   created() {
