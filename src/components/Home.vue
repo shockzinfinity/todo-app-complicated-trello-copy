@@ -3,9 +3,7 @@ div Home
   div Board List:
     div(v-if="loading") Loading...
     div(v-else) API response:
-      pre {{ apiRes }}
-    div(v-if="error") Error:
-      pre {{ error }}
+      div(v-for="b in boards", :key="b.id") {{ b }}
     ul
       li
         router-link(to="/b/1") Board 1
@@ -21,8 +19,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      apiRes: "",
-      error: "",
+      boards: [],
       loading: false
     };
   },
@@ -31,12 +28,13 @@ export default {
       this.loading = true;
 
       axios
-        .get("https://localhost:4001/weatherforecast")
+        .get("https://localhost:4001/api/category")
         .then(res => {
-          this.apiRes = res.data;
+          this.boards = res.data;
         })
         .catch(res => {
-          this.error = res.response.data;
+          // this.error = res.response.data;
+          this.$router.replace("/login");
         })
         .finally(() => {
           this.loading = false;
