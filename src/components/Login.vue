@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { auth } from "../api";
+import { auth, setAuthInHeader } from "../api";
 export default {
   data() {
     return {
@@ -50,10 +50,12 @@ export default {
         .then(data => {
           // console.log(data);
           localStorage.setItem("token", data.token);
+          setAuthInHeader(data.token);
           this.$router.push(this.rPath);
         })
         .catch(err => {
-          console.log(err);
+          // console.log(err);
+          this.error = err.data.message;
         });
     }
   },
