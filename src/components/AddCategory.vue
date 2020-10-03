@@ -20,7 +20,7 @@ modal
 
 <script>
 import Modal from "@/components/Modal";
-import { mapMutations } from "vuex";
+import { mapMutations, mapActions } from "vuex";
 
 export default {
   components: { Modal },
@@ -37,9 +37,13 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_IS_ADD_CATEGORY"]),
+    ...mapActions(["ADD_CATEGORY"]),
     addCategory() {
       this.SET_IS_ADD_CATEGORY(false);
-      this.$emit("submit", this.input);
+      // this.$emit("submit", this.input);
+      // this.$store.dispatch("ADD_CATEGORY", { name: this.input });
+      this.ADD_CATEGORY({ name: this.input });
+      this.$emit("submit");
     }
   },
   mounted() {

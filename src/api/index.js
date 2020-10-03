@@ -31,6 +31,11 @@ export const setAuthInHeader = (token) => {
     : null;
 };
 
+const { token } = localStorage;
+if (token) {
+  setAuthInHeader(token);
+}
+
 export const category = {
   fetch() {
     return request("GET", "/api/category");

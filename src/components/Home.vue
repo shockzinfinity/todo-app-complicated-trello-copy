@@ -12,11 +12,7 @@ div
         .category-item-title {{ c.name }}
     .category-item.category-item-new
       a.new-category-btn(href="", @click.prevent="SET_IS_ADD_CATEGORY(true)") Create new Category
-  add-category(
-    v-if="isAddCategory",
-    @close="isAddCategory = false",
-    @submit="onAddCategory"
-  )
+  add-category(v-if="isAddCategory", @submit="onAddCategory")
 </template>
 
 <script>
@@ -50,17 +46,18 @@ export default {
           this.loading = false;
         });
     },
-    onAddCategory(name) {
+    onAddCategory() {
       // console.log(name);
       // api
-      category
-        .create(name)
-        .then(data => {
-          this.fetchData();
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      // category
+      //   .create(name)
+      //   .then(data => {
+      //     this.fetchData();
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
+      this.fetchData();
     }
   },
   created() {
