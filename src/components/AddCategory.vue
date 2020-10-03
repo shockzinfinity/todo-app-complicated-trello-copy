@@ -2,7 +2,10 @@
 modal
   div(slot="header")
     h2 Create new category
-      a.modal-default-button(href="", @click.prevent="close") &times;
+      a.modal-default-button(
+        href="",
+        @click.prevent="SET_IS_ADD_CATEGORY(false)"
+      ) &times;
   div(slot="body")
     form#add-category-form(@submit.prevent="addCategory")
       input.form-control(type="text", v-model="input", ref="input")
@@ -17,6 +20,7 @@ modal
 
 <script>
 import Modal from "@/components/Modal";
+import { mapMutations } from "vuex";
 
 export default {
   components: { Modal },
@@ -32,11 +36,9 @@ export default {
     }
   },
   methods: {
-    close() {
-      this.$emit("close");
-    },
+    ...mapMutations(["SET_IS_ADD_CATEGORY"]),
     addCategory() {
-      this.$emit("close");
+      this.SET_IS_ADD_CATEGORY(false);
       this.$emit("submit", this.input);
     }
   },

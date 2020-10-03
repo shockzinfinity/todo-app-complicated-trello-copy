@@ -11,7 +11,7 @@ div
       router-link(:to="`/c/${c.id}`")
         .category-item-title {{ c.name }}
     .category-item.category-item-new
-      a.new-category-btn(href="", @click.prevent="addCategory") Create new Category
+      a.new-category-btn(href="", @click.prevent="SET_IS_ADD_CATEGORY(true)") Create new Category
   add-category(
     v-if="isAddCategory",
     @close="isAddCategory = false",
@@ -21,6 +21,7 @@ div
 
 <script>
 import AddCategory from "@/components/AddCategory";
+import { mapMutations, mapState } from "vuex";
 import { category } from "../api";
 
 export default {
@@ -34,11 +35,10 @@ export default {
     };
   },
   computed: {
-    isAddCategory() {
-      return this.$store.state.isAddCategory;
-    }
+    ...mapState(["isAddCategory"])
   },
   methods: {
+    ...mapMutations(["SET_IS_ADD_CATEGORY"]),
     fetchData() {
       this.loading = true;
       category
@@ -49,10 +49,6 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-    },
-    addCategory() {
-      // console.log("add category");
-      this.isAddCategory = true;
     },
     onAddCategory(name) {
       // console.log(name);
