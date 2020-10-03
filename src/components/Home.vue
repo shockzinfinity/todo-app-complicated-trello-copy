@@ -12,17 +12,26 @@ div
         .category-item-title {{ c.name }}
     .category-item.category-item-new
       a.new-category-btn(href="", @click.prevent="addCategory") Create new Category
+  add-category(
+    v-if="isAddCategory",
+    @close="isAddCategory = false",
+    @submit="onAddCategory"
+  )
 </template>
 
 <script>
+import AddCategory from "@/components/AddCategory";
 import { category } from "../api";
 
 export default {
+  name: "Home",
+  components: { AddCategory },
   data() {
     return {
       categories: [],
       loading: false,
-      error: ""
+      error: "",
+      isAddCategory: false
     };
   },
   methods: {
@@ -38,7 +47,11 @@ export default {
         });
     },
     addCategory() {
-      console.log("add category");
+      // console.log("add category");
+      this.isAddCategory = true;
+    },
+    onAddCategory(name) {
+      console.log(name);
     }
   },
   created() {
