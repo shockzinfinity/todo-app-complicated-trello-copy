@@ -4,19 +4,22 @@ div
   div(v-if="loading") Loading category...
   div(v-else)
     span cid: {{ cid }}
+    pre {{ category }}
     div
-      router-link(:to="`/c/${bid}/t/1`") Todo Item 1
+      router-link(:to="`/c/${cid}/t/1`") Todo Item 1
       span
       = ' '
-      router-link(:to="`/c/${bid}/t/2`") Todo Item 2
+      router-link(:to="`/c/${cid}/t/2`") Todo Item 2
       span
       = ' '
-      router-link(:to="`/c/${bid}/t/3`") Todo Item 3
+      router-link(:to="`/c/${cid}/t/3`") Todo Item 3
   hr
   router-view
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "Category",
   data() {
@@ -25,14 +28,18 @@ export default {
       loading: false
     };
   },
+  computed: {
+    ...mapState({
+      category: "category"
+    })
+  },
   methods: {
+    ...mapActions(["FETCH_CATEGORY"]),
     fetchData() {
       this.loading = true;
-      // backend call
-      setTimeout(() => {
-        this.cid = this.$route.params.cid;
-        this.loading = false;
-      }, 500);
+      this.FETCH_CATEGORY({ id: this.$route.params.cid }).then(
+        () => (this.loading = false)
+      );
     }
   },
   created() {

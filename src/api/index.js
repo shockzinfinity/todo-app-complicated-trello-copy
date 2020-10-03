@@ -37,8 +37,10 @@ export const setAuthInHeader = (token) => {
 // }
 
 export const category = {
-  fetch() {
-    return request("GET", "/api/category");
+  fetch(id) {
+    return id
+      ? request("GET", `/api/category/${id}`)
+      : request("GET", "/api/category");
   },
   create(name) {
     return request("POST", "/api/category", {

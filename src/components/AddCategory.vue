@@ -42,8 +42,9 @@ export default {
       this.SET_IS_ADD_CATEGORY(false);
       // this.$emit("submit", this.input);
       // this.$store.dispatch("ADD_CATEGORY", { name: this.input });
-      this.ADD_CATEGORY({ name: this.input }).then(_ => {
-        this.FETCH_CATEGORIES();
+      this.ADD_CATEGORY({ name: this.input }).then(({ id }) => {
+        this.$router.push(`/c/${id}`);
+        // this.FETCH_CATEGORIES();
       });
       // this.$emit("submit");
     }
