@@ -2,7 +2,12 @@
 div
   .home-title Personal Categories
   .category-list(ref="categoryList")
-    .category-item(v-for="c in categories", :key="c.id", ref="categoryItem")
+    .category-item(
+      v-for="c in categories",
+      :key="c.id",
+      :data-bgcolor="c.bgColor",
+      ref="categoryItem"
+    )
       router-link(:to="`/c/${c.id}`")
         .category-item-title {{ c.name }}
     .category-item.category-item-new
@@ -38,6 +43,11 @@ export default {
   },
   created() {
     this.fetchData();
+  },
+  updated() {
+    this.$refs.categoryItem.forEach(el => {
+      el.style.backgroundColor = el.dataset.bgcolor;
+    });
   }
 };
 </script>
