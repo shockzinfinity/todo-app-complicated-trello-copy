@@ -13,10 +13,19 @@ const store = new Vuex.Store({
     SET_IS_ADD_CATEGORY(state, toggle) {
       state.isAddCategory = toggle;
     },
+    SET_CATEGORIES(state, categories) {
+      state.categories = categories;
+    },
   },
   actions: {
     ADD_CATEGORY(_, { name }) {
       return api.category.create(name);
+    },
+    FETCH_CATEGORIES({ commit }) {
+      return api.category.fetch().then((data) => {
+        console.log(data);
+        commit("SET_CATEGORIES", data);
+      });
     },
   },
 });

@@ -37,13 +37,15 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_IS_ADD_CATEGORY"]),
-    ...mapActions(["ADD_CATEGORY"]),
+    ...mapActions(["ADD_CATEGORY", "FETCH_CATEGORIES"]),
     addCategory() {
       this.SET_IS_ADD_CATEGORY(false);
       // this.$emit("submit", this.input);
       // this.$store.dispatch("ADD_CATEGORY", { name: this.input });
-      this.ADD_CATEGORY({ name: this.input });
-      this.$emit("submit");
+      this.ADD_CATEGORY({ name: this.input }).then(_ => {
+        this.FETCH_CATEGORIES();
+      });
+      // this.$emit("submit");
     }
   },
   mounted() {

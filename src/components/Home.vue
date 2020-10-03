@@ -12,12 +12,12 @@ div
         .category-item-title {{ c.name }}
     .category-item.category-item-new
       a.new-category-btn(href="", @click.prevent="SET_IS_ADD_CATEGORY(true)") Create new Category
-  add-category(v-if="isAddCategory", @submit="onAddCategory")
+  add-category(v-if="isAddCategory")
 </template>
 
 <script>
 import AddCategory from "@/components/AddCategory";
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapActions } from "vuex";
 import { category } from "../api";
 
 export default {
@@ -25,39 +25,24 @@ export default {
   components: { AddCategory },
   data() {
     return {
-      categories: [],
       loading: false,
       error: ""
     };
   },
   computed: {
-    ...mapState(["isAddCategory"])
+    ...mapState({
+      isAddCategory: "isAddCategory",
+      categories: "categories"
+    })
   },
   methods: {
     ...mapMutations(["SET_IS_ADD_CATEGORY"]),
+    ...mapActions(["FETCH_CATEGORIES"]),
     fetchData() {
       this.loading = true;
-      category
-        .fetch()
-        .then(data => {
-          this.categories = data;
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-    onAddCategory() {
-      // console.log(name);
-      // api
-      // category
-      //   .create(name)
-      //   .then(data => {
-      //     this.fetchData();
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
-      this.fetchData();
+      this.FETCH_CATEGORIES().finally(_ => {
+        this.loading = false;
+      });
     }
   },
   created() {
