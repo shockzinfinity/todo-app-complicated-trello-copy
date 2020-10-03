@@ -51,7 +51,16 @@ export default {
       this.isAddCategory = true;
     },
     onAddCategory(name) {
-      console.log(name);
+      // console.log(name);
+      // api
+      category
+        .create(name)
+        .then(data => {
+          this.fetchData();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   created() {

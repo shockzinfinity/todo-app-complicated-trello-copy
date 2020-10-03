@@ -35,6 +35,13 @@ export const category = {
   fetch() {
     return request("GET", "/api/category");
   },
+  create(name) {
+    return request("POST", "/api/category", {
+      name,
+      bgColor: "rgb(0, 121, 191)",
+      userId: 1,
+    });
+  },
 };
 
 export const auth = {
