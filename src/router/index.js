@@ -5,14 +5,15 @@ import Login from "@/components/Login.vue";
 import NotFound from "@/components/NotFound.vue";
 import Category from "@/components/Category.vue";
 import TodoItem from "@/components/TodoItem.vue";
+import store from "../store";
 
 Vue.use(VueRouter);
 
 const requireAuth = (to, from, next) => {
-  const isAuth = localStorage.getItem("token");
+  // const isAuth = localStorage.getItem("token");
   const loginPath = `/login?rPath=${encodeURIComponent(to.path)}`;
 
-  isAuth ? next() : next(loginPath);
+  store.getters.isAuth ? next() : next(loginPath);
 };
 
 const router = new VueRouter({

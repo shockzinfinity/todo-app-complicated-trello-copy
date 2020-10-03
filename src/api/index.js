@@ -31,10 +31,10 @@ export const setAuthInHeader = (token) => {
     : null;
 };
 
-const { token } = localStorage;
-if (token) {
-  setAuthInHeader(token);
-}
+// const { token } = localStorage;
+// if (token) {
+//   setAuthInHeader(token);
+// }
 
 export const category = {
   fetch() {

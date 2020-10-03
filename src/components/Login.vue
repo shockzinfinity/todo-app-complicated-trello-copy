@@ -27,7 +27,9 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import { auth, setAuthInHeader } from "../api";
+
 export default {
   data() {
     return {
@@ -43,20 +45,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["LOGIN"]),
     onSubmit() {
-      // console.log(this.username, this.password);
-      auth
-        .login(this.username, this.password)
-        .then(data => {
-          // console.log(data);
-          localStorage.setItem("token", data.token);
-          setAuthInHeader(data.token);
+      this.LOGIN({ username: this.username, password: this.password }).then(
+        data => {
           this.$router.push(this.rPath);
-        })
-        .catch(err => {
-          // console.log(err);
-          this.error = err.data.message;
-        });
+        }
+      );
     }
   },
   created() {
