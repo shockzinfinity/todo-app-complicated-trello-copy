@@ -30,9 +30,13 @@ export default {
     return {
       categories: [],
       loading: false,
-      error: "",
-      isAddCategory: false
+      error: ""
     };
+  },
+  computed: {
+    isAddCategory() {
+      return this.$store.state.isAddCategory;
+    }
   },
   methods: {
     fetchData() {
