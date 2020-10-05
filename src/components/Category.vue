@@ -4,7 +4,11 @@ div
     .category
       .category-header
         span.category-title {{ category.name }}
-      pre {{ category }}
+      //- pre {{ category }}
+      .list-section-wrapper
+        .list-section
+          .list-wrapper(v-for="item in category.todoItems", :key="item.id")
+            list(:data="item")
 </template>
 
 <script>

@@ -2,11 +2,25 @@
 .list
   .list-header
     .list-header-title {{ data.name }}
+  div(v-if="isAddItem")
+    add-item(@close="isAddItem = false")
+  div(v-else)
+    a.add-todo-btn(href="", @click.prevent="isAddItem = true") &plus; Add a item ...
 </template>
 
 <script>
+import AddItem from "@/components/AddItem";
+
 export default {
-  props: ["data"]
+  components: {
+    AddItem
+  },
+  props: ["data"],
+  data() {
+    return {
+      isAddItem: false
+    };
+  }
 };
 </script>
 
