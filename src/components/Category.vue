@@ -7,8 +7,8 @@ div
       //- pre {{ category }}
       .list-section-wrapper
         .list-section
-          .list-wrapper(v-for="item in category.todoItems", :key="item.id")
-            list(:data="item")
+          .list-wrapper(v-for="flow in category.lists", :key="flow.pos")
+            list(:data="flow")
 </template>
 
 <script>

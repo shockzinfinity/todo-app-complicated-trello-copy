@@ -20,7 +20,11 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.inputTitle);
+      // if (this.invalidInput) {
+      //   return;
+      // }
+      // console.log(this.inputTitle);
+      console.log("submit!");
       // this.$emit("close");
     },
     setupClickOutside(el) {
@@ -34,7 +38,7 @@ export default {
   },
   mounted() {
     this.$refs.inputText.focus();
-    this.setupClickOutside(this.$el);
+    // this.setupClickOutside(this.$el);
   }
 };
 </script>

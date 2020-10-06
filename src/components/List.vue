@@ -5,7 +5,7 @@
   div(v-if="isAddItem")
     add-item(@close="isAddItem = false")
   div(v-else)
-    a.add-todo-btn(href="", @click.prevent="isAddItem = true") &plus; Add a item ...
+    a.add-todo-btn(href="", @click.prevent="isAddItem = true") &plus; Add a item...
 </template>
 
 <script>
@@ -15,7 +15,11 @@ export default {
   components: {
     AddItem
   },
-  props: ["data"],
+  props: {
+    data: {
+      type: Object
+    }
+  },
   data() {
     return {
       isAddItem: false
