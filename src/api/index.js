@@ -25,6 +25,15 @@ const request = (method, url, data) => {
     });
 };
 
+export const auth = {
+  login(username, password) {
+    return request("POST", "/api/users/authenticate", {
+      username,
+      password,
+    });
+  },
+};
+
 export const setAuthInHeader = (token) => {
   axios.defaults.headers.common.Authorization = token
     ? `Bearer ${token}`
@@ -51,11 +60,8 @@ export const category = {
   },
 };
 
-export const auth = {
-  login(username, password) {
-    return request("POST", "/api/users/authenticate", {
-      username,
-      password,
-    });
+export const todoItem = {
+  create(name, flowId, pos) {
+    return request("POST", "/api/todoitems", { name, flowId, pos });
   },
 };

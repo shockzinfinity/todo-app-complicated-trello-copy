@@ -7,7 +7,14 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
+  props: {
+    flowId: {
+      type: Number
+    }
+  },
   data() {
     return {
       inputTitle: ""
@@ -19,13 +26,20 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      ADD_TODOITEM: "ADD_TODOITEM"
+    }),
     onSubmit() {
-      // if (this.invalidInput) {
-      //   return;
-      // }
-      // console.log(this.inputTitle);
-      console.log("submit!");
-      // this.$emit("close");
+      if (this.invalidInput) {
+        return;
+      }
+
+      const { inputTitle, flowId } = this;
+
+      this.ADD_TODOITEM({ name: inputTitle, flowId }).finally(() => {
+        this.inputTitle = "";
+        this.$emit("close");
+      });
     },
     setupClickOutside(el) {
       document.querySelector("body").addEventListener("click", e => {

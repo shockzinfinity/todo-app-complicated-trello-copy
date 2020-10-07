@@ -19,6 +19,11 @@ const actions = {
       .login(username, password)
       .then(({ token }) => commit("LOGIN", token));
   },
+  ADD_TODOITEM({ dispatch, state }, { name, flowId, pos }) {
+    return api.todoItem
+      .create(name, flowId, pos)
+      .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
+  },
 };
 
 export default actions;
