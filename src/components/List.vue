@@ -2,6 +2,8 @@
 .list
   .list-header
     .list-header-title {{ data.name }}
+  .todo-list
+    todo-item(v-for="todo in data.items", :key="todo.id", :data="todo")
   div(v-if="isAddItem")
     add-item(:flowId="data.id", @close="isAddItem = false")
   div(v-else)
@@ -10,10 +12,12 @@
 
 <script>
 import AddItem from "@/components/AddItem";
+import TodoItem from "@/components/TodoItem";
 
 export default {
   components: {
-    AddItem
+    AddItem,
+    TodoItem
   },
   props: {
     data: {

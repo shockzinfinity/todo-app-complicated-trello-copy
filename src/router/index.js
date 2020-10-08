@@ -4,7 +4,7 @@ import Home from "@/components/Home.vue";
 import Login from "@/components/Login.vue";
 import NotFound from "@/components/NotFound.vue";
 import Category from "@/components/Category.vue";
-import TodoItem from "@/components/TodoItem.vue";
+import Todo from "@/components/Todo.vue";
 import store from "../store";
 
 Vue.use(VueRouter);
@@ -25,9 +25,7 @@ const router = new VueRouter({
       path: "/c/:cid",
       component: Category,
       beforeEnter: requireAuth,
-      children: [
-        { path: "t/:tid", component: TodoItem, beforeEnter: requireAuth },
-      ],
+      children: [{ path: "t/:tid", component: Todo, beforeEnter: requireAuth }],
     },
     { path: "*", component: NotFound },
   ],

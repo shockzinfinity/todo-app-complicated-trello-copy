@@ -1,7 +1,12 @@
 <template lang="pug">
 .add-item
   form(@submit.prevent="onSubmit")
-    input.form-control(type="text", ref="inputText", v-model="inputTitle")
+    input.form-control(
+      type="text",
+      ref="inputText",
+      v-model="inputTitle",
+      @blur="onBlur"
+    )
     button.btn.btn-success(type="submit", :disabled="invalidInput") Add TodoItem
     a.cancel-add-btn(href="", @click.prevent="$emit('close')") &times;
 </template>
@@ -40,6 +45,13 @@ export default {
         this.inputTitle = "";
         this.$emit("close");
       });
+    },
+    onBlur() {
+      console.log(this.inputTitle);
+      console.log(this.invalidInput);
+      // if (this.invalidInput) {
+      //   console.log(this.inputTitle);
+      // }
     },
     setupClickOutside(el) {
       document.querySelector("body").addEventListener("click", e => {

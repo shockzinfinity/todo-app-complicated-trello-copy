@@ -1,37 +1,54 @@
 <template lang="pug">
-div
-  div Todo Item
-  div(v-if="loading") loading todo items...
-  div(v-else)
-    span tid: {{ tid }}
+.todo-item
+  div {{ data.name }}
+  .todo-item-meta(v-if="data.description") &equiv;
 </template>
 
 <script>
 export default {
-  name: "TodoItem",
-  data() {
-    return {
-      tid: 0,
-      loading: false
-    };
-  },
-  watch: {
-    $route: {
-      handler: "fetchData",
-      immediate: true
-    }
-  },
-  methods: {
-    fetchData() {
-      this.loading = true;
-      setTimeout(() => {
-        this.tid = this.$route.params.tid;
-        this.loading = false;
-      }, 500);
-    }
+  props: {
+    data: { type: Object }
   }
 };
 </script>
 
 <style>
+.todo-item {
+  background-color: #ffffff;
+  border-radius: 3px;
+  margin: 8px;
+  padding: 6px 20px 2px 8px;
+  box-shadow: 0 1px 0 #cccccc;
+  position: relative;
+}
+
+.todo-item a {
+  text-decoration: none;
+  color: #444;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow: hidden;
+  display: block;
+}
+
+.todo-item:hover,
+.todo-item:focus {
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.todo-item-meta {
+  font-size: 26px;
+  padding: 5px 0 0 3px;
+  color: #8c8c8c;
+}
+
+.delete-todo-btn {
+  position: absolute;
+  right: 10px;
+  top: 4px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #aaaaaa;
+}
 </style>
