@@ -11,10 +11,10 @@ const request = (method, url, data) => {
   return axios({
     method,
     url: DOMAIN + url,
-    data,
+    data
   })
-    .then((result) => result.data)
-    .catch((result) => {
+    .then(result => result.data)
+    .catch(result => {
       const { status } = result.response;
       if (status === UNAUTHORIZED) {
         return onUnauthorized();
@@ -29,12 +29,12 @@ export const auth = {
   login(username, password) {
     return request("POST", "/api/users/authenticate", {
       username,
-      password,
+      password
     });
-  },
+  }
 };
 
-export const setAuthInHeader = (token) => {
+export const setAuthInHeader = token => {
   axios.defaults.headers.common.Authorization = token
     ? `Bearer ${token}`
     : null;
@@ -55,9 +55,9 @@ export const category = {
     return request("POST", "/api/category", {
       name,
       bgColor: "rgb(0, 121, 191)",
-      userId: 1,
+      userId: 1
     });
-  },
+  }
 };
 
 export const todoItem = {
@@ -68,4 +68,7 @@ export const todoItem = {
     // console.log("api id: ", id);
     return request("GET", `/api/todoitems/${id}`);
   },
+  update(id, payload) {
+    return request("PUT", `/api/todoitems/${id}`, payload);
+  }
 };

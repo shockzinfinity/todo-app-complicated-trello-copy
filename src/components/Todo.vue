@@ -2,7 +2,13 @@
 modal.modal-todo
   .modal-todo-header(slot="header")
     .modal-todo-header-title
-      input.form-control(type="text", :value="todoItem.name", readonly)
+      input.form-control(
+        type="text",
+        :value="todoItem.name",
+        :readonly="!toggleTitle",
+        @click="toggleTitle = true",
+        @blur="toggleTitle = false"
+      )
       a.modal-close-btn(href="", @click.prevent="onClose") &times;
   div(slot="body")
     h3 Description
@@ -24,6 +30,11 @@ export default {
   name: "Todo",
   components: {
     Modal
+  },
+  data() {
+    return {
+      toggleTitle: false
+    };
   },
   computed: {
     ...mapState({

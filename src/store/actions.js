@@ -2,15 +2,15 @@ import * as api from "../api";
 
 const actions = {
   ADD_CATEGORY(_, { name }) {
-    return api.category.create(name).then((data) => data);
+    return api.category.create(name).then(data => data);
   },
   FETCH_CATEGORIES({ commit }) {
-    return api.category.fetch().then((data) => {
+    return api.category.fetch().then(data => {
       commit("SET_CATEGORIES", data);
     });
   },
   FETCH_CATEGORY({ commit }, { id }) {
-    return api.category.fetch(id).then((data) => {
+    return api.category.fetch(id).then(data => {
       commit("SET_CATEGORY", data);
     });
   },
@@ -26,10 +26,15 @@ const actions = {
   },
   FETCH_TODOITEM({ commit }, { id }) {
     // console.log("actions id: ", id);
-    return api.todoItem.fetch(id).then((data) => {
+    return api.todoItem.fetch(id).then(data => {
       commit("SET_TODOITEM", data);
     });
   },
+  UPDATE_TODOITEM({ dispatch, state }, { id, name, description, pos, flowId }) {
+    return api.todoItem
+      .update(id, { name, description, pos, flowId })
+      .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
+  }
 };
 
 export default actions;
