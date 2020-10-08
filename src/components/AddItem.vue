@@ -47,8 +47,8 @@ export default {
       });
     },
     onBlur() {
-      console.log(this.inputTitle);
-      console.log(this.invalidInput);
+      // console.log(this.inputTitle);
+      // console.log(this.invalidInput);
       // if (this.invalidInput) {
       //   console.log(this.inputTitle);
       // }

@@ -64,4 +64,8 @@ export const todoItem = {
   create(name, flowId, pos) {
     return request("POST", "/api/todoitems", { name, flowId, pos });
   },
+  fetch(id) {
+    // console.log("api id: ", id);
+    return request("GET", `/api/todoitems/${id}`);
+  },
 };

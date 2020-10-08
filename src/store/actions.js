@@ -24,6 +24,12 @@ const actions = {
       .create(name, flowId, pos)
       .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
   },
+  FETCH_TODOITEM({ commit }, { id }) {
+    // console.log("actions id: ", id);
+    return api.todoItem.fetch(id).then((data) => {
+      commit("SET_TODOITEM", data);
+    });
+  },
 };
 
 export default actions;

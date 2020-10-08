@@ -9,6 +9,7 @@ div
         .list-section
           .list-wrapper(v-for="flow in category.lists", :key="flow.pos")
             list(:data="flow")
+  router-view
 </template>
 
 <script>

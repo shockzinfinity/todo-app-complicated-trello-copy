@@ -3,6 +3,7 @@ const state = {
   categories: [],
   category: {},
   token: null,
+  todoItem: {},
 };
 
 export default state;

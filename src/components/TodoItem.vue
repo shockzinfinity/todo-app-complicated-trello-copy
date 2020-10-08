@@ -1,13 +1,21 @@
 <template lang="pug">
 .todo-item
-  div {{ data.name }}
-  .todo-item-meta(v-if="data.description") &equiv;
+  router-link(:to="`/c/${categoryId}/t/${data.id}`")
+    div {{ data.name }}
+    .todo-item-meta(v-if="data.description") &equiv;
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: {
     data: { type: Object }
+  },
+  computed: {
+    ...mapState({
+      categoryId: state => state.category.id
+    })
   }
 };
 </script>

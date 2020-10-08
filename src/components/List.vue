@@ -73,7 +73,7 @@ export default {
 
 .todo-list {
   flex: 1 1 auto;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .empty-todo-item {

@@ -10,6 +10,9 @@ const mutations = {
   SET_CATEGORY(state, category) {
     state.category = category;
   },
+  SET_TODOITEM(state, todoItem) {
+    state.todoItem = todoItem;
+  },
   LOGIN(state, token) {
     if (!token) {
       return;
