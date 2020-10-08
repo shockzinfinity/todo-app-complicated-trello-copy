@@ -7,7 +7,8 @@ modal.modal-todo
         :value="todoItem.name",
         :readonly="!toggleTitle",
         @click="toggleTitle = true",
-        @blur="toggleTitle = false"
+        @blur="onBlurTitle",
+        ref="inputTitle"
       )
       a.modal-close-btn(href="", @click.prevent="onClose") &times;
   div(slot="body")
@@ -16,8 +17,11 @@ modal.modal-todo
       cols="30",
       rows="3",
       placeholder="Add a more detailed description...",
-      readonly,
-      v-model="todoItem.description"
+      :readonly="!toggleDesc",
+      v-model="todoItem.description",
+      @click="toggleDesc = true",
+      @blur="onBlurDesc",
+      ref="inputDesc"
     )
   div(slot="footer")
 </template>
@@ -33,7 +37,8 @@ export default {
   },
   data() {
     return {
-      toggleTitle: false
+      toggleTitle: false,
+      toggleDesc: false
     };
   },
   computed: {
@@ -44,16 +49,43 @@ export default {
   },
   methods: {
     ...mapActions({
-      FETCH_TODOITEM: "FETCH_TODOITEM"
+      FETCH_TODOITEM: "FETCH_TODOITEM",
+      UPDATE_TODOITEM: "UPDATE_TODOITEM"
     }),
     onClose() {
       this.$router.push(`/c/${this.category.id}`);
+    },
+    fetchTodoItem() {
+      const id = this.$route.params.tid;
+      this.FETCH_TODOITEM({ id });
+    },
+    onBlurTitle() {
+      this.toggleTitle = false;
+      const title = this.$refs.inputTitle.value.trim();
+      if (!title) {
+        return;
+      }
+
+      this.UPDATE_TODOITEM({ id: this.todoItem.id, name: title }).then(() => {
+        this.fetchTodoItem();
+      });
+    },
+    onBlurDesc() {
+      this.toggleDesc = false;
+      const desc = this.$refs.inputDesc.value.trim();
+      if (!desc) {
+        return;
+      }
+
+      this.UPDATE_TODOITEM({ id: this.todoItem.id, description: desc }).then(
+        () => {
+          this.fetchTodoItem();
+        }
+      );
     }
   },
   created() {
-    const id = this.$route.params.tid;
-    // console.log("component id: ", id);
-    this.FETCH_TODOITEM({ id });
+    this.fetchTodoItem();
   }
 };
 </script>

@@ -31,8 +31,26 @@ const actions = {
     });
   },
   UPDATE_TODOITEM({ dispatch, state }, { id, name, description, pos, flowId }) {
+    const payload = state.todoItem;
+
+    if (name) {
+      payload.name = name;
+    }
+
+    if (description) {
+      payload.description = description;
+    }
+
+    if (pos) {
+      payload.pos = pos;
+    }
+
+    if (flowId) {
+      payload.flowId = flowId;
+    }
+
     return api.todoItem
-      .update(id, { name, description, pos, flowId })
+      .update(id, payload)
       .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
   }
 };
