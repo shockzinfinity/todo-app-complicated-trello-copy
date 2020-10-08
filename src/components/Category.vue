@@ -15,6 +15,8 @@ div
 <script>
 import { mapState, mapActions } from "vuex";
 import List from "@/components/List";
+import dragula from "dragula";
+import "dragula/dist/dragula.css";
 
 export default {
   name: "Category",
@@ -24,7 +26,8 @@ export default {
   data() {
     return {
       cid: 0,
-      loading: false
+      loading: false,
+      dragulaItems: null
     };
   },
   computed: {
@@ -33,7 +36,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["FETCH_CATEGORY"]),
+    ...mapActions(["FETCH_CATEGORY", "UPDATE_TODOITEM"]),
     fetchData() {
       this.loading = true;
       this.FETCH_CATEGORY({ id: this.$route.params.cid }).then(
@@ -43,6 +46,58 @@ export default {
   },
   created() {
     this.fetchData();
+  },
+  updated() {
+    if (this.dragulaItems) {
+      this.dragulaItems.destroy();
+    }
+
+    this.dragulaItems = dragula([
+      ...Array.from(this.$el.querySelectorAll(".todo-list"))
+    ]).on("drop", (el, wrapper, target, siblings) => {
+      // console.log("drop");
+      // debugger;
+      const targetItem = {
+        id: el.dataset.todoId * 1,
+        pos: 65535
+      };
+      let prevTodo = null;
+      let nextTodo = null;
+      // debugger;
+      Array.from(wrapper.querySelectorAll(".todo-item")).forEach(
+        (el, idx, arr) => {
+          const todoId = el.dataset.todoId * 1;
+          if (todoId === targetItem.id) {
+            prevTodo =
+              idx > 0
+                ? {
+                    id: arr[idx - 1].dataset.todoId * 1,
+                    pos: arr[idx - 1].dataset.todoPos * 1
+                  }
+                : null;
+            nextTodo =
+              idx < arr.length - 1
+                ? {
+                    id: arr[idx + 1].dataset.todoId * 1,
+                    pos: arr[idx + 1].dataset.todoPos * 1
+                  }
+                : null;
+          }
+        }
+      );
+
+      if (!prevTodo && nextTodo) {
+        // 맨앞
+        targetItem.pos = nextTodo.pos / 2;
+      } else if (!nextTodo && prevTodo) {
+        // 맨뒤
+        targetItem.pos = prevTodo.pos * 2;
+      } else if (prevTodo && nextTodo) {
+        targetItem.pos = (prevTodo.pos + nextTodo.pos) / 2;
+      }
+      // console.log(targetItem);
+      this.UPDATE_TODOITEM({ id: targetItem.id, pos: targetItem.pos });
+    });
   }
 };
 </script>

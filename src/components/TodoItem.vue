@@ -1,5 +1,5 @@
 <template lang="pug">
-.todo-item
+.todo-item(:data-todo-id="data.id", :data-todo-pos="data.pos")
   router-link(:to="`/c/${categoryId}/t/${data.id}`")
     div {{ data.name }}
     .todo-item-meta(v-if="data.description") &equiv;
