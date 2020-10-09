@@ -1,7 +1,7 @@
 import axios from "axios";
 import router from "../router";
 
-const DOMAIN = "https://localhost:4001";
+const DOMAIN = "https://localhost:5001";
 const UNAUTHORIZED = 401;
 const onUnauthorized = () => {
   router.push("/login");
@@ -21,6 +21,19 @@ const request = (method, url, data) => {
       }
 
       // throw Error(result);
+      throw result.response;
+    });
+};
+const patchRequest = (url, data) => {
+  return axios
+    .patch(DOMAIN + url, data)
+    .then(result => result.data)
+    .catch(result => {
+      const { status } = result.response;
+      if (status === UNAUTHORIZED) {
+        return onUnauthorized();
+      }
+
       throw result.response;
     });
 };
@@ -70,5 +83,15 @@ export const todoItem = {
   },
   update(id, payload) {
     return request("PUT", `/api/todoitems/${id}`, payload);
+  },
+  patch(id, payload) {
+    const thePatch = [
+      {
+        op: "replace",
+        path: "/pos",
+        value: `${payload.pos}`
+      }
+    ];
+    return patchRequest(`/api/todoitems/${id}`, thePatch);
   }
 };

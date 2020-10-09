@@ -36,7 +36,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["FETCH_CATEGORY", "UPDATE_TODOITEM"]),
+    ...mapActions(["FETCH_CATEGORY", "UPDATE_TODOITEM", "PATCH_TODOITEM"]),
     fetchData() {
       this.loading = true;
       this.FETCH_CATEGORY({ id: this.$route.params.cid }).then(
@@ -96,7 +96,7 @@ export default {
         targetItem.pos = (prevTodo.pos + nextTodo.pos) / 2;
       }
       // console.log(targetItem);
-      this.UPDATE_TODOITEM({ id: targetItem.id, pos: targetItem.pos });
+      this.PATCH_TODOITEM({ id: targetItem.id, pos: targetItem.pos });
     });
   }
 };

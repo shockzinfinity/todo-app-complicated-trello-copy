@@ -49,8 +49,18 @@ const actions = {
       payload.flowId = flowId;
     }
 
+    payload.id = id;
+
+    console.log("actions id: ", id);
+    console.log("actions payload: ", payload);
+
     return api.todoItem
       .update(id, payload)
+      .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
+  },
+  PATCH_TODOITEM({ dispatch, state }, { id, name, description, pos, flowId }) {
+    return api.todoItem
+      .patch(id, { id, name, description, pos, flowId })
       .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
   }
 };
