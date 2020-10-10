@@ -15,8 +15,7 @@ div
 <script>
 import { mapState, mapActions } from "vuex";
 import List from "@/components/List";
-import dragula from "dragula";
-import "dragula/dist/dragula.css";
+import dragger from "@/utils/dragger";
 
 export default {
   name: "Category",
@@ -27,7 +26,7 @@ export default {
     return {
       cid: 0,
       loading: false,
-      dragulaItems: null
+      tDragger: null
     };
   },
   computed: {
@@ -42,62 +41,46 @@ export default {
       this.FETCH_CATEGORY({ id: this.$route.params.cid }).then(
         () => (this.loading = false)
       );
+    },
+    setItemDraggble() {
+      if (this.tDragger) {
+        this.tDragger.destroy();
+      }
+      this.tDragger = dragger.init(
+        Array.from(this.$el.querySelectorAll(".todo-list"))
+      );
+
+      this.tDragger.on("drop", (el, wrapper, target, siblings) => {
+        const targetItem = {
+          id: el.dataset.todoId * 1,
+          pos: 65536
+        };
+
+        const { prev, next } = dragger.siblings({
+          el,
+          wrapper,
+          candidates: Array.from(wrapper.querySelectorAll(".todo-item")),
+          type: "todo"
+        });
+
+        if (!prev && next) {
+          // 맨앞
+          targetItem.pos = next.pos / 2;
+        } else if (!next && prev) {
+          // 맨뒤
+          targetItem.pos = prev.pos * 2;
+        } else if (prev && next) {
+          targetItem.pos = (prev.pos + next.pos) / 2;
+        }
+        this.PATCH_TODOITEM({ id: targetItem.id, pos: targetItem.pos });
+      });
     }
   },
   created() {
     this.fetchData();
   },
   updated() {
-    if (this.dragulaItems) {
-      this.dragulaItems.destroy();
-    }
-
-    this.dragulaItems = dragula([
-      ...Array.from(this.$el.querySelectorAll(".todo-list"))
-    ]).on("drop", (el, wrapper, target, siblings) => {
-      // console.log("drop");
-      // debugger;
-      const targetItem = {
-        id: el.dataset.todoId * 1,
-        pos: 65536
-      };
-      let prevTodo = null;
-      let nextTodo = null;
-      // debugger;
-      Array.from(wrapper.querySelectorAll(".todo-item")).forEach(
-        (el, idx, arr) => {
-          const todoId = el.dataset.todoId * 1;
-          if (todoId === targetItem.id) {
-            prevTodo =
-              idx > 0
-                ? {
-                    id: arr[idx - 1].dataset.todoId * 1,
-                    pos: arr[idx - 1].dataset.todoPos * 1
-                  }
-                : null;
-            nextTodo =
-              idx < arr.length - 1
-                ? {
-                    id: arr[idx + 1].dataset.todoId * 1,
-                    pos: arr[idx + 1].dataset.todoPos * 1
-                  }
-                : null;
-          }
-        }
-      );
-
-      if (!prevTodo && nextTodo) {
-        // 맨앞
-        targetItem.pos = nextTodo.pos / 2;
-      } else if (!nextTodo && prevTodo) {
-        // 맨뒤
-        targetItem.pos = prevTodo.pos * 2;
-      } else if (prevTodo && nextTodo) {
-        targetItem.pos = (prevTodo.pos + nextTodo.pos) / 2;
-      }
-      // console.log(targetItem);
-      this.PATCH_TODOITEM({ id: targetItem.id, pos: targetItem.pos });
-    });
+    this.setItemDraggble();
   }
 };
 </script>
