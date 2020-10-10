@@ -76,6 +76,11 @@ const actions = {
     return api.todoItem
       .destory(id)
       .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
+  },
+  ADD_FLOW({ dispatch, state }, { name, pos, categoryId }) {
+    return api.flow.create({ name, pos, categoryId }).then(() => {
+      dispatch("FETCH_CATEGORY", { id: state.category.id });
+    });
   }
 };
 

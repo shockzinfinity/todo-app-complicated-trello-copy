@@ -8,8 +8,7 @@ div
           v-if="isEditTitle",
           v-model="inputTitle",
           ref="inputTitle",
-          @blur="onSubmitTitle",
-          @keyup.enter="onSubmitTitle"
+          @keypress.enter="onSubmitTitle"
         )
         span.category-title(v-else, @click="onClickTitle") {{ category.name }}
         a.category-header-btn.show-menu(
@@ -20,6 +19,8 @@ div
         .list-section
           .list-wrapper(v-for="flow in category.lists", :key="flow.pos")
             list(:data="flow")
+          .list-wrapper
+            add-flow
   category-settings(v-if="isShowCategorySettings")
   router-view
 </template>
@@ -29,12 +30,14 @@ import { mapState, mapMutations, mapActions } from "vuex";
 import List from "@/components/List";
 import dragger from "@/utils/dragger";
 import CategorySettings from "@/components/CategorySettings";
+import AddFlow from "@/components/AddFlow";
 
 export default {
   name: "Category",
   components: {
     List,
-    CategorySettings
+    CategorySettings,
+    AddFlow
   },
   data() {
     return {

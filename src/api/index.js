@@ -126,3 +126,9 @@ export const todoItem = {
     return request("DELETE", `/api/todoitems/${id}`);
   }
 };
+
+export const flow = {
+  create(payload) {
+    return request("POST", "/api/flow", payload);
+  }
+};
