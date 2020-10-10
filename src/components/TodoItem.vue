@@ -3,10 +3,11 @@
   router-link(:to="`/c/${categoryId}/t/${data.id}`")
     div {{ data.name }}
     .todo-item-meta(v-if="data.description") &equiv;
+  a.delete-todo-btn(href="", @click.prevent="onDelete") &times;
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   props: {
@@ -16,6 +17,15 @@ export default {
     ...mapState({
       categoryId: state => state.category.id
     })
+  },
+  methods: {
+    ...mapActions(["DELETE_TODOITEM"]),
+    onDelete() {
+      if (!window.confirm("Delete this todo item?")) {
+        return;
+      }
+      this.DELETE_TODOITEM({ id: this.data.id });
+    }
   }
 };
 </script>

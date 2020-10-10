@@ -115,5 +115,8 @@ export const todoItem = {
       });
     }
     return patchRequest(`/api/todoitems/${id}`, thePatch);
+  },
+  destory(id) {
+    return request("DELETE", `/api/todoitems/${id}`);
   }
 };

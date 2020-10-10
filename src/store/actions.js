@@ -62,6 +62,11 @@ const actions = {
     return api.todoItem
       .patch(id, { id, name, description, pos, flowId })
       .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
+  },
+  DELETE_TODOITEM({ dispatch, state }, { id }) {
+    return api.todoItem
+      .destory(id)
+      .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
   }
 };
 
