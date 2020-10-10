@@ -5,7 +5,8 @@ const state = {
   token: null,
   todoItem: {},
   bodyColor: "#ffffff",
-  navbarColor: "#026aa7"
+  navbarColor: "#026aa7",
+  isShowCategorySettings: false
 };
 
 export default state;

@@ -17,6 +17,9 @@ const mutations = {
     state.bodyColor = color || "#ffffff";
     state.navbarColor = color ? "rgba(0,0,0,.15)" : "#026aa7";
   },
+  SET_IS_SHOW_CATEGORY_SETTINGS(state, toggle) {
+    state.isShowCategorySettings = toggle;
+  },
   LOGIN(state, token) {
     if (!token) {
       return;

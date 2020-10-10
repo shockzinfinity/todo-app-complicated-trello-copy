@@ -4,11 +4,16 @@ div
     .category
       .category-header
         span.category-title {{ category.name }}
+        a.category-header-btn.show-menu(
+          href="",
+          @click.prevent="onShowSettings"
+        ) ... Show Menu
       //- pre {{ category }}
       .list-section-wrapper
         .list-section
           .list-wrapper(v-for="flow in category.lists", :key="flow.pos")
             list(:data="flow")
+  category-settings(v-if="isShowCategorySettings")
   router-view
 </template>
 
@@ -16,11 +21,13 @@ div
 import { mapState, mapMutations, mapActions } from "vuex";
 import List from "@/components/List";
 import dragger from "@/utils/dragger";
+import CategorySettings from "@/components/CategorySettings";
 
 export default {
   name: "Category",
   components: {
-    List
+    List,
+    CategorySettings
   },
   data() {
     return {
@@ -31,11 +38,12 @@ export default {
   },
   computed: {
     ...mapState({
-      category: "category"
+      category: "category",
+      isShowCategorySettings: "isShowCategorySettings"
     })
   },
   methods: {
-    ...mapMutations(["SET_THEME"]),
+    ...mapMutations(["SET_THEME", "SET_IS_SHOW_CATEGORY_SETTINGS"]),
     ...mapActions(["FETCH_CATEGORY", "UPDATE_TODOITEM", "PATCH_TODOITEM"]),
     fetchData() {
       this.loading = true;
@@ -75,12 +83,16 @@ export default {
         }
         this.PATCH_TODOITEM({ id: targetItem.id, pos: targetItem.pos });
       });
+    },
+    onShowSettings() {
+      this.SET_IS_SHOW_CATEGORY_SETTINGS(true);
     }
   },
   created() {
     this.fetchData().then(() => {
       this.SET_THEME(this.category.bgColor);
     });
+    this.SET_IS_SHOW_CATEGORY_SETTINGS(false);
   },
   updated() {
     this.setItemDraggble();
