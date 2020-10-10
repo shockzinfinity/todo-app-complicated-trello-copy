@@ -1,4 +1,5 @@
 import * as api from "../api";
+import state from "./state";
 
 const actions = {
   ADD_CATEGORY(_, { name }) {
@@ -16,6 +17,11 @@ const actions = {
   },
   DELETE_CATEGORY(_, { id }) {
     return api.category.destory(id);
+  },
+  UPDATE_CATEGORY({ dispatch, state }, { id, name, bgColor }) {
+    return api.category
+      .update(id, { id, name, bgColor })
+      .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
   },
   LOGIN({ commit }, { username, password }) {
     return api.auth

@@ -73,6 +73,9 @@ export const category = {
   },
   destory(id) {
     return request("DELETE", `/api/category/${id}`);
+  },
+  update(id, payload) {
+    return request("PUT", `/api/category/${id}`, payload);
   }
 };
 

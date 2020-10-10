@@ -6,6 +6,16 @@
   ul.menu-list
     li
       a(href="", @click.prevent="onDeleteCategory") Delete Category
+    li Change Background
+    .color-picker
+      a(href="", data-value="rgb(0, 121, 191)", @click.prevent="onChangeTheme")
+      a(
+        href="",
+        data-value="rgb(210, 144, 52)",
+        @click.prevent="onChangeTheme"
+      )
+      a(href="", data-value="rgb(81, 152, 57)", @click.prevent="onChangeTheme")
+      a(href="", data-value="rgb(176, 70, 50)", @click.prevent="onChangeTheme")
 </template>
 
 <script>
@@ -18,8 +28,8 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["DELETE_CATEGORY"]),
-    ...mapMutations(["SET_IS_SHOW_CATEGORY_SETTINGS"]),
+    ...mapActions(["DELETE_CATEGORY", "UPDATE_CATEGORY"]),
+    ...mapMutations(["SET_IS_SHOW_CATEGORY_SETTINGS", "SET_THEME"]),
     onClose() {
       this.SET_IS_SHOW_CATEGORY_SETTINGS(false);
     },
@@ -30,7 +40,20 @@ export default {
       this.DELETE_CATEGORY({ id: this.category.id })
         .then(() => this.SET_IS_SHOW_CATEGORY_SETTINGS(false))
         .then(() => this.$router.push("/"));
+    },
+    onChangeTheme(el) {
+      const id = this.category.id;
+      const name = this.category.name;
+      const bgColor = el.target.dataset.value;
+      this.UPDATE_CATEGORY({ id, name, bgColor }).then(() =>
+        this.SET_THEME(bgColor)
+      );
     }
+  },
+  mounted() {
+    Array.from(this.$el.querySelectorAll(".color-picker a")).forEach(el => {
+      el.style.backgroundColor = el.dataset.value;
+    });
   }
 };
 </script>
