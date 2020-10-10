@@ -1,5 +1,9 @@
 <template lang="pug">
-.list
+.list(
+  :data-flow-id="data.id",
+  :data-flow-pos="data.pos",
+  :data-flow-name="data.name"
+)
   .list-header
     input.form-control.input-title(
       type="text",

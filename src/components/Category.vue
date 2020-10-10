@@ -17,7 +17,12 @@ div
         ) ... Show Menu
       .list-section-wrapper
         .list-section
-          .list-wrapper(v-for="flow in category.lists", :key="flow.pos")
+          .list-wrapper(
+            v-for="flow in category.lists",
+            :key="flow.pos",
+            :data-flow-id="flow.id",
+            :data-flow-name="flow.name"
+          )
             list(:data="flow")
           .list-wrapper
             add-flow
@@ -44,6 +49,7 @@ export default {
       cid: 0,
       loading: false,
       tDragger: null,
+      fDragger: null,
       isEditTitle: false,
       inputTitle: ""
     };
@@ -60,7 +66,8 @@ export default {
       "FETCH_CATEGORY",
       "UPDATE_TODOITEM",
       "PATCH_TODOITEM",
-      "UPDATE_CATEGORY"
+      "UPDATE_CATEGORY",
+      "UPDATE_FLOW"
     ]),
     fetchData() {
       this.loading = true;
@@ -101,6 +108,46 @@ export default {
         this.PATCH_TODOITEM({ id: targetItem.id, pos: targetItem.pos });
       });
     },
+    setFlowDraggble() {
+      if (this.fDragger) {
+        this.fDragger.destroy();
+      }
+      this.fDragger = dragger.init(
+        Array.from(this.$el.querySelectorAll(".list-section"))
+      );
+
+      this.fDragger.on("drop", (el, wrapper, target, siblings) => {
+        const targetFlow = {
+          id: el.dataset.flowId * 1,
+          name: el.dataset.flowName,
+          pos: 65536,
+          categoryId: this.category.id
+        };
+
+        const { prev, next } = dragger.siblings({
+          el,
+          wrapper,
+          candidates: Array.from(wrapper.querySelectorAll(".list")),
+          type: "flow"
+        });
+
+        if (!prev && next) {
+          // 맨앞
+          targetFlow.pos = next.pos / 2;
+        } else if (!next && prev) {
+          // 맨뒤
+          targetFlow.pos = prev.pos * 2;
+        } else if (prev && next) {
+          targetFlow.pos = (prev.pos + next.pos) / 2;
+        }
+        this.UPDATE_FLOW({
+          id: targetFlow.id,
+          pos: targetFlow.pos,
+          name: targetFlow.name,
+          categoryId: targetFlow.categoryId
+        });
+      });
+    },
     onShowSettings() {
       this.SET_IS_SHOW_CATEGORY_SETTINGS(true);
     },
@@ -134,6 +181,7 @@ export default {
   },
   updated() {
     this.setItemDraggble();
+    this.setFlowDraggble();
   }
 };
 </script>
