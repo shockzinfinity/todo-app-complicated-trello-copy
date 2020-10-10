@@ -4,17 +4,32 @@
     .header-title Menu
     a.header-close-btn(href="", @click.prevent="onClose") &times;
   ul.menu-list
-    li Menu 1
+    li
+      a(href="", @click.prevent="onDeleteCategory") Delete Category
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
+  computed: {
+    ...mapState({
+      category: "category"
+    })
+  },
   methods: {
+    ...mapActions(["DELETE_CATEGORY"]),
     ...mapMutations(["SET_IS_SHOW_CATEGORY_SETTINGS"]),
     onClose() {
       this.SET_IS_SHOW_CATEGORY_SETTINGS(false);
+    },
+    onDeleteCategory() {
+      if (!window.confirm(`DELETE ${this.category.name} Category?`)) {
+        return;
+      }
+      this.DELETE_CATEGORY({ id: this.category.id })
+        .then(() => this.SET_IS_SHOW_CATEGORY_SETTINGS(false))
+        .then(() => this.$router.push("/"));
     }
   }
 };

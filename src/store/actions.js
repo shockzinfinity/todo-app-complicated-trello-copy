@@ -14,6 +14,9 @@ const actions = {
       commit("SET_CATEGORY", data);
     });
   },
+  DELETE_CATEGORY(_, { id }) {
+    return api.category.destory(id);
+  },
   LOGIN({ commit }, { username, password }) {
     return api.auth
       .login(username, password)

@@ -70,6 +70,9 @@ export const category = {
       bgColor: "rgb(0, 121, 191)",
       userId: 1
     });
+  },
+  destory(id) {
+    return request("DELETE", `/api/category/${id}`);
   }
 };
 
