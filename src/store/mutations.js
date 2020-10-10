@@ -13,6 +13,10 @@ const mutations = {
   SET_TODOITEM(state, todoItem) {
     state.todoItem = todoItem;
   },
+  SET_THEME(state, color) {
+    state.bodyColor = color || "#ffffff";
+    state.navbarColor = color ? "rgba(0,0,0,.15)" : "#026aa7";
+  },
   LOGIN(state, token) {
     if (!token) {
       return;
@@ -26,7 +30,7 @@ const mutations = {
     state.token = null;
     delete localStorage.token;
     setAuthInHeader(null);
-  },
+  }
 };
 
 export default mutations;

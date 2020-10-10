@@ -13,7 +13,7 @@ div
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import List from "@/components/List";
 import dragger from "@/utils/dragger";
 
@@ -35,10 +35,11 @@ export default {
     })
   },
   methods: {
+    ...mapMutations(["SET_THEME"]),
     ...mapActions(["FETCH_CATEGORY", "UPDATE_TODOITEM", "PATCH_TODOITEM"]),
     fetchData() {
       this.loading = true;
-      this.FETCH_CATEGORY({ id: this.$route.params.cid }).then(
+      return this.FETCH_CATEGORY({ id: this.$route.params.cid }).then(
         () => (this.loading = false)
       );
     },
@@ -77,7 +78,9 @@ export default {
     }
   },
   created() {
-    this.fetchData();
+    this.fetchData().then(() => {
+      this.SET_THEME(this.category.bgColor);
+    });
   },
   updated() {
     this.setItemDraggble();

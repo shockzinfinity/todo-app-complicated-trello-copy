@@ -36,7 +36,7 @@ export default {
     })
   },
   methods: {
-    ...mapMutations(["SET_IS_ADD_CATEGORY"]),
+    ...mapMutations(["SET_IS_ADD_CATEGORY", "SET_THEME"]),
     ...mapActions(["FETCH_CATEGORIES"]),
     fetchData() {
       this.loading = true;
@@ -47,6 +47,7 @@ export default {
   },
   created() {
     this.fetchData();
+    this.SET_THEME();
   },
   updated() {
     this.$refs.categoryItem.forEach(el => {
