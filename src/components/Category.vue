@@ -59,7 +59,7 @@ export default {
       // debugger;
       const targetItem = {
         id: el.dataset.todoId * 1,
-        pos: 65535
+        pos: 65536
       };
       let prevTodo = null;
       let nextTodo = null;

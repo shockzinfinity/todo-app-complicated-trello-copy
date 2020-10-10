@@ -1,7 +1,7 @@
 import axios from "axios";
 import router from "../router";
 
-const DOMAIN = "https://localhost:5001";
+const DOMAIN = "https://localhost:4001";
 const UNAUTHORIZED = 401;
 const onUnauthorized = () => {
   router.push("/login");
@@ -85,13 +85,35 @@ export const todoItem = {
     return request("PUT", `/api/todoitems/${id}`, payload);
   },
   patch(id, payload) {
-    const thePatch = [
-      {
+    const thePatch = [];
+    if (payload.name) {
+      thePatch.push({
+        op: "replace",
+        path: "/name",
+        value: `${payload.name}`
+      });
+    }
+    if (payload.description) {
+      thePatch.push({
+        op: "replace",
+        path: "/description",
+        value: `${payload.description}`
+      });
+    }
+    if (payload.pos) {
+      thePatch.push({
         op: "replace",
         path: "/pos",
         value: `${payload.pos}`
-      }
-    ];
+      });
+    }
+    if (payload.flowId) {
+      thePatch.push({
+        op: "replace",
+        path: "/flowId",
+        value: `${payload.flowId}`
+      });
+    }
     return patchRequest(`/api/todoitems/${id}`, thePatch);
   }
 };

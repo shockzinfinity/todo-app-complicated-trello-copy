@@ -41,10 +41,29 @@ export default {
 
       const { inputTitle, flowId } = this;
 
-      this.ADD_TODOITEM({ name: inputTitle, flowId }).finally(() => {
+      // TODO: pos 계산 필요
+      const pos = this.newItemPos();
+
+      this.ADD_TODOITEM({ name: inputTitle, pos, flowId }).finally(() => {
         this.inputTitle = "";
         this.$emit("close");
       });
+    },
+    newItemPos() {
+      const curList = this.$store.state.category.lists.filter(
+        l => l.id === this.flowId
+      )[0];
+
+      if (!curList) {
+        return 65536;
+      }
+
+      const { items } = curList;
+      if (!items.length) {
+        return 65536;
+      }
+
+      return items[items.length - 1].pos * 2;
     },
     onBlur() {
       // console.log(this.inputTitle);
