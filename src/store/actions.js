@@ -81,6 +81,11 @@ const actions = {
     return api.flow.create({ name, pos, categoryId }).then(() => {
       dispatch("FETCH_CATEGORY", { id: state.category.id });
     });
+  },
+  UPDATE_FLOW({ dispatch, state }, { id, name, pos, categoryId }) {
+    return api.flow.update(id, { id, name, pos, categoryId }).then(() => {
+      dispatch("FETCH_CATEGORY", { id: state.category.id });
+    });
   }
 };
 

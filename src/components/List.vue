@@ -1,7 +1,15 @@
 <template lang="pug">
 .list
   .list-header
-    .list-header-title {{ data.name }}
+    input.form-control.input-title(
+      type="text",
+      v-if="isEditTitle",
+      ref="inputTitle",
+      v-model="inputTitle",
+      @blur="onBlurTitle",
+      @keypress.enter="onSubmitTitle"
+    )
+    .list-header-title(v-else, @click.prevent="onClickTitle") {{ data.name }}
   .todo-list
     todo-item(v-for="todo in data.items", :key="todo.id", :data="todo")
   div(v-if="isAddItem")
@@ -13,6 +21,8 @@
 <script>
 import AddItem from "@/components/AddItem";
 import TodoItem from "@/components/TodoItem";
+import { mapActions, mapState } from "vuex";
+import { category } from "../api";
 
 export default {
   components: {
@@ -26,8 +36,41 @@ export default {
   },
   data() {
     return {
-      isAddItem: false
+      isAddItem: false,
+      isEditTitle: false,
+      inputTitle: ""
     };
+  },
+  methods: {
+    ...mapActions(["UPDATE_FLOW"]),
+    onClickTitle() {
+      this.isEditTitle = true;
+      this.$nextTick(() => this.$refs.inputTitle.focus());
+    },
+    onBlurTitle() {
+      this.isEditTitle = false;
+    },
+    onSubmitTitle() {
+      this.onBlurTitle();
+      this.inputTitle = this.inputTitle.trim();
+      if (!this.inputTitle) {
+        return;
+      }
+
+      const id = this.data.id;
+      const name = this.inputTitle;
+      const pos = this.data.pos;
+      const categoryId = this.data.categoryId;
+      if (name === this.data.name) {
+        return;
+      }
+
+      // console.log(id, name, pos, categoryId);
+      this.UPDATE_FLOW({ id, name, pos, categoryId });
+    }
+  },
+  created() {
+    this.inputTitle = this.data.name;
   }
 };
 </script>

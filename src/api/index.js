@@ -130,5 +130,8 @@ export const todoItem = {
 export const flow = {
   create(payload) {
     return request("POST", "/api/flow", payload);
+  },
+  update(id, payload) {
+    return request("PUT", `/api/flow/${id}`, payload);
   }
 };
