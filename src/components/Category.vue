@@ -3,12 +3,19 @@ div
   .category-wrapper
     .category
       .category-header
-        span.category-title {{ category.name }}
+        input.form-control(
+          type="text",
+          v-if="isEditTitle",
+          v-model="inputTitle",
+          ref="inputTitle",
+          @blur="onSubmitTitle",
+          @keyup.enter="onSubmitTitle"
+        )
+        span.category-title(v-else, @click="onClickTitle") {{ category.name }}
         a.category-header-btn.show-menu(
           href="",
           @click.prevent="onShowSettings"
         ) ... Show Menu
-      //- pre {{ category }}
       .list-section-wrapper
         .list-section
           .list-wrapper(v-for="flow in category.lists", :key="flow.pos")
@@ -33,7 +40,9 @@ export default {
     return {
       cid: 0,
       loading: false,
-      tDragger: null
+      tDragger: null,
+      isEditTitle: false,
+      inputTitle: ""
     };
   },
   computed: {
@@ -44,7 +53,12 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_THEME", "SET_IS_SHOW_CATEGORY_SETTINGS"]),
-    ...mapActions(["FETCH_CATEGORY", "UPDATE_TODOITEM", "PATCH_TODOITEM"]),
+    ...mapActions([
+      "FETCH_CATEGORY",
+      "UPDATE_TODOITEM",
+      "PATCH_TODOITEM",
+      "UPDATE_CATEGORY"
+    ]),
     fetchData() {
       this.loading = true;
       return this.FETCH_CATEGORY({ id: this.$route.params.cid }).then(
@@ -86,10 +100,31 @@ export default {
     },
     onShowSettings() {
       this.SET_IS_SHOW_CATEGORY_SETTINGS(true);
+    },
+    onClickTitle() {
+      this.isEditTitle = true;
+      this.$nextTick(() => {
+        this.$refs.inputTitle.focus();
+      });
+    },
+    onSubmitTitle() {
+      this.isEditTitle = false;
+      this.inputTitle = this.inputTitle.trim();
+      if (!this.inputTitle) {
+        return;
+      }
+      const id = this.category.id;
+      const name = this.category.name;
+      const bgColor = this.category.bgColor;
+      if (name === this.inputTitle) {
+        return;
+      }
+      this.UPDATE_CATEGORY({ id, name: this.inputTitle, bgColor });
     }
   },
   created() {
     this.fetchData().then(() => {
+      this.inputTitle = this.category.name;
       this.SET_THEME(this.category.bgColor);
     });
     this.SET_IS_SHOW_CATEGORY_SETTINGS(false);
