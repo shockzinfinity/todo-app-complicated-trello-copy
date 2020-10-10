@@ -112,8 +112,15 @@ export default {
       if (this.fDragger) {
         this.fDragger.destroy();
       }
+
+      // dragula options 설정 (입력 버튼은 드래그 적용 안되도록...)
+      const options = {
+        invalid: (el, handle) => !/^list/.test(handle.className)
+      };
+
       this.fDragger = dragger.init(
-        Array.from(this.$el.querySelectorAll(".list-section"))
+        Array.from(this.$el.querySelectorAll(".list-section")),
+        options
       );
 
       this.fDragger.on("drop", (el, wrapper, target, siblings) => {
