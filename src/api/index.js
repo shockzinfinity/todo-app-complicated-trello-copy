@@ -133,5 +133,8 @@ export const flow = {
   },
   update(id, payload) {
     return request("PUT", `/api/flow/${id}`, payload);
+  },
+  destory(id){
+    return request("DELETE", `/api/flow/${id}`);
   }
 };

@@ -86,6 +86,11 @@ const actions = {
     return api.flow.update(id, { id, name, pos, categoryId }).then(() => {
       dispatch("FETCH_CATEGORY", { id: state.category.id });
     });
+  },
+  DELETE_FLOW({ dispatch, state }, { id }) {
+    return api.flow
+      .destory(id)
+      .then(() => dispatch("FETCH_CATEGORY", { id: state.category.id }));
   }
 };
 

@@ -14,6 +14,7 @@
       @keypress.enter="onSubmitTitle"
     )
     .list-header-title(v-else, @click.prevent="onClickTitle") {{ data.name }}
+    a.delete-list-btn(href="", @click.prevent="onDeleteFlow") &times;
   .todo-list
     todo-item(v-for="todo in data.items", :key="todo.id", :data="todo")
   div(v-if="isAddItem")
@@ -46,7 +47,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["UPDATE_FLOW"]),
+    ...mapActions(["UPDATE_FLOW", "DELETE_FLOW"]),
     onClickTitle() {
       this.isEditTitle = true;
       this.$nextTick(() => this.$refs.inputTitle.focus());
@@ -71,6 +72,12 @@ export default {
 
       // console.log(id, name, pos, categoryId);
       this.UPDATE_FLOW({ id, name, pos, categoryId });
+    },
+    onDeleteFlow() {
+      if (!window.confirm(`Delete ${this.data.name} flow?`)) {
+        return;
+      }
+      this.DELETE_FLOW({ id: this.data.id });
     }
   },
   created() {
