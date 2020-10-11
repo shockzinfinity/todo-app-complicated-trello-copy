@@ -15,7 +15,7 @@
     )
     .list-header-title(v-else, @click.prevent="onClickTitle") {{ data.name }}
     a.delete-list-btn(href="", @click.prevent="onDeleteFlow") &times;
-  .todo-list
+  .todo-list(:data-flow-id="data.id")
     todo-item(v-for="todo in data.items", :key="todo.id", :data="todo")
   div(v-if="isAddItem")
     add-item(:flowId="data.id", @close="isAddItem = false")

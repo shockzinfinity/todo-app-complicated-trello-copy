@@ -11,6 +11,7 @@ const dragger = {
     let next = null;
 
     candidates.forEach((el, idx, arr) => {
+      // debugger;
       const id = el.dataset[type + "Id"] * 1;
       if (id === currentId) {
         prev =

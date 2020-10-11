@@ -60,8 +60,8 @@ const actions = {
 
     payload.id = id;
 
-    console.log("actions id: ", id);
-    console.log("actions payload: ", payload);
+    // console.log("actions id: ", id);
+    // console.log("actions payload: ", payload);
 
     return api.todoItem
       .update(id, payload)

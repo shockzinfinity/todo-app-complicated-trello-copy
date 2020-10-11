@@ -86,6 +86,7 @@ export default {
       this.tDragger.on("drop", (el, wrapper, target, siblings) => {
         const targetItem = {
           id: el.dataset.todoId * 1,
+          flowId: wrapper.dataset.flowId * 1,
           pos: 65536
         };
 
@@ -105,7 +106,11 @@ export default {
         } else if (prev && next) {
           targetItem.pos = (prev.pos + next.pos) / 2;
         }
-        this.PATCH_TODOITEM({ id: targetItem.id, pos: targetItem.pos });
+        this.PATCH_TODOITEM({
+          id: targetItem.id,
+          pos: targetItem.pos,
+          flowId: targetItem.flowId
+        });
       });
     },
     setFlowDraggble() {

@@ -120,6 +120,9 @@ export const todoItem = {
         value: `${payload.flowId}`
       });
     }
+
+    // console.log(payload);
+    // console.log(thePatch);
     return patchRequest(`/api/todoitems/${id}`, thePatch);
   },
   destory(id) {
@@ -134,7 +137,7 @@ export const flow = {
   update(id, payload) {
     return request("PUT", `/api/flow/${id}`, payload);
   },
-  destory(id){
+  destory(id) {
     return request("DELETE", `/api/flow/${id}`);
   }
 };
