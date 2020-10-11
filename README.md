@@ -1,24 +1,5 @@
-# vue-trello
+# Todo App 을 만드는 꽤 복잡한 방법 (Frontend)
 
-## Project setup
-```
-yarn install
-```
+[Trello](https://trello.com) copy
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[Tutorial](https://shockzinfinity.github.io/tutorial/todoapp.3.html) 목적으로 제작
